@@ -125,7 +125,7 @@ const loginUser = async (req, res) => {
             return res.status(401).json({ message: " Wrong email or password" })
 
         // check if passoword matches
-        const isPwdCorrect = bcrypt.compare(password, existingUser.password);
+        const isPwdCorrect = await bcrypt.compare(password, existingUser.password);
         if (!isPwdCorrect)
             return res.status(401).json({ message: " Wrong email or password" });
 
