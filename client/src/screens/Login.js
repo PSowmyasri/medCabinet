@@ -2,11 +2,18 @@ import React, {useState} from 'react';
 import { toast } from 'react-toastify';
 import { login } from '../actions/auth';
 import LoginComponent from '../components/LoginComponent'
+import axios from 'axios';
+import { useDispatch } from "react-redux";
+
+
 
 
 const Login = () => {
     const [email,setEmail] = useState('');
     const [password, setPassword] = useState('');
+
+    const dispatch = useDispatch();
+
 
     const handleLogin = async(e) => {
         e.preventDefault();
@@ -14,11 +21,17 @@ const Login = () => {
         try{
             console.log(email)
             console.log(password)
-            const temp = await login(
+            const res = await login(
                 {
                  email : email,
                  password : password}
                  );
+            console.log(res);
+            window.localStorage.setItem('user', JSON.stringify(res.data));
+            dispatch({
+                    type:'LOGIN_USER',
+                    payload:test.data
+                });
             toast.success("Logged in!");
 
         }

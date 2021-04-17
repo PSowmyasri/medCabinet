@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import { toast } from 'react-toastify';
-
+import { useDispatch } from "react-redux";
 import { register } from '../actions/auth';
 import RegisterComponent from '../components/RegisterComponent'
 import axios from 'axios';
@@ -10,6 +10,7 @@ const Register = () => {
     const [email,setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [passwordVerfiy,setPasswordVerify] = useState('');
+    const dispatch = useDispatch();
 
     const handleRegister = async(e) => {
         e.preventDefault();
@@ -24,10 +25,17 @@ const Register = () => {
                  password : password,
                  passwordVerify: passwordVerfiy}
                  );
+            console.log(temp);
+            // window.localStorage.setItem('user', JSON.stringify(temp.data));
+            // dispatch({
+            //         type:'LOGIN_USER',
+            //         payload:test.data
+            //     });
             toast.success("Registered!");
 
         }
         catch(err){
+            console.log(err);
             toast.error(err.response.data.message)
         }
     } //end of handleRegister
