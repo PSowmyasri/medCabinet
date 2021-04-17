@@ -26,7 +26,7 @@ const Register = () => {
                  passwordVerify: passwordVerfiy}
                  );
             console.log(res);
-            window.localStorage.setItem('user', JSON.stringify(res.data));
+            window.localStorage.setItem('user', JSON.stringify(res.data.token));
             dispatch({
                     type:'LOGIN_USER',
                     payload:res.data

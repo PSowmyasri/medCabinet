@@ -6,6 +6,7 @@ import Register from './screens/Register'
 import {ToastContainer} from 'react-toastify'
 import Login from './screens/Login';
 import 'react-toastify/dist/ReactToastify.css'
+import HomeScreen from './screens/HomeScreen';
 
 function App() {
   return (
@@ -18,6 +19,8 @@ function App() {
           <Route exact path="/register" component={Register} />
 
           <Route exact path="/login" component={Login} />
+
+          <Route exact path="/home" component={HomeScreen} />
 
         </Switch>
       </main>
