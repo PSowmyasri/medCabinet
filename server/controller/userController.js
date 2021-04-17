@@ -43,27 +43,24 @@ const addUser = async (req, res) => {
 
         //sign the token
 
-    //     const token = jwt.sign(
-    //         {
-    //             user: savedUser._id
-    //         },
-    //         process.env.JWT_SECRET,
-    //         { expiresIn: '2d' },);
+        const token = jwt.sign(
+            {
+                user: savedUser._id
+            },
+            process.env.JWT_SECRET,
+            { expiresIn: '2d' },);
 
-    //     console.log(token);
+        console.log(token);
 
 
-    //     // //send the token as cookie
-    //     // res.cookie("token", token, { httpOnly: true, }).send()
-    //    return res.json({token,
-    //         user : {
-    //          id : savedUser._id,
-    //          email : savedUser._email
-    //     }
-    // });
-    // console.log("hey");
-            //   return res.json({ok:true});
-
+        // //send the token as cookie
+        // res.cookie("token", token, { httpOnly: true, }).send()
+       res.json({token,
+            user : {
+             id : savedUser._id,
+             email : savedUser._email
+        }
+    });
 
     }
     catch (err) {
@@ -110,8 +107,7 @@ const loginUser = async (req, res) => {
              id : existingUser._id,
              email : existingUser._email
         }
-    }).send();
-    console.log("hey");
+    });
 
     }
     catch (err) {
@@ -120,12 +116,11 @@ const loginUser = async (req, res) => {
     }
 }
 
-//logout user
-const logout = (req, res) => {
-    res.cookie("token", "", { httpOnly: true, expires: new Date(0), }).send();
-}
+//logout user for cookies case
+// const logout = (req, res) => {
+//     res.cookie("token", "", { httpOnly: true, expires: new Date(0), }).send();
+// }
 module.exports = {
     addUser,
     loginUser,
-    logout
 }

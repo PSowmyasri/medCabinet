@@ -19,18 +19,18 @@ const Register = () => {
             console.log(email)
             console.log(password)
             console.log(passwordVerfiy)
-            const temp = await register(
+            const res = await register(
                 {name : name, 
                  email : email,
                  password : password,
                  passwordVerify: passwordVerfiy}
                  );
-            console.log(temp);
-            // window.localStorage.setItem('user', JSON.stringify(temp.data));
-            // dispatch({
-            //         type:'LOGIN_USER',
-            //         payload:test.data
-            //     });
+            console.log(res);
+            window.localStorage.setItem('user', JSON.stringify(res.data));
+            dispatch({
+                    type:'LOGIN_USER',
+                    payload:res.data
+                });
             toast.success("Registered!");
 
         }

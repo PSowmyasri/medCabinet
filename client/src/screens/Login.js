@@ -26,16 +26,17 @@ const Login = () => {
                  email : email,
                  password : password}
                  );
-            console.log(res);
+            // console.log(res.data);
             window.localStorage.setItem('user', JSON.stringify(res.data));
             dispatch({
                     type:'LOGIN_USER',
-                    payload:test.data
+                    payload:res.data
                 });
             toast.success("Logged in!");
 
         }
         catch(err){
+            console.log(err);
             toast.error(err.response.data.message)
         }
     } 
