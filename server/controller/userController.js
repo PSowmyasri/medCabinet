@@ -23,46 +23,11 @@ const addUser = async (req, res) => {
 
         // check if user exists
 
-        // User.findOne({ email })
-        //     .then(user => {
-        //         if (user)
-        //             res.status(400).json({ message: "User already exists" });
-
-        //         const newUser = new User({
-        //             name,
-        //             email,
-        //             password
-        //         })
-
-        //         //bcrypt the password 
-        //          bcrypt.genSalt(10, function(err, salt) {
-        //             bcrypt.hash(newUser.password, salt , function(err, hash) {
-        //                 if (err) throw err;
-        //                 newUser.password = hash;
-        //                 newUser.save()
-        //                     .then(user => {
-        //                         res.json({
-        //                             user: {
-        //                                 id: user.id,
-        //                                 name: user.name,
-        //                                 email: user.email
-        //                             }
-        //                         })
-        //                     })
-        //                     .catch(err => {
-        //                         console.log("error while saving the user");
-        //                         res.status(400).json({
-        //                             error: err
-        //                         })
-        //                     })
-        //             })
-        //          })
-        //     })
         const userExists = await User.findOne({ email });
         if (userExists)
             return res.status(400).json({ message: " An user with this email already exists " });
 
-        //hash password - need to fix issue with bcrypt for windows
+        //hash password using bcypt
 
         const salt = await bcrypt.genSalt(10);
         const passwordHash = await bcrypt.hash(password, salt)
@@ -73,19 +38,6 @@ const addUser = async (req, res) => {
         });
         const savedUser = await newUser.save();
         console.log(savedUser);
-        // .then(user => {
-        //     res.json({
-        //         user: {
-        //             id: user.id,
-        //             name: user.name,
-        //             email: user.email
-        //         }
-        //     })
-        // })
-        // .catch(err => {
-        //     console.log(err);
-        //     res.status(400).json({ message: " error while saving the user" });
-        // })
 
         //login the user once he registers
 
@@ -95,10 +47,20 @@ const addUser = async (req, res) => {
             {
                 user: savedUser._id
             },
-            process.env.JWT_SECRET);
+            process.env.JWT_SECRET,
+            { expiresIn: '2d' },);
 
-        //send the token as cookie
-        res.cookie("token", token, { httpOnly: true, }).send()
+        console.log(token);
+
+
+        // //send the token as cookie
+        // res.cookie("token", token, { httpOnly: true, }).send()
+       res.json({token,
+            user : {
+             id : savedUser._id,
+             email : savedUser._email
+        }
+    });
 
     }
     catch (err) {
@@ -135,11 +97,17 @@ const loginUser = async (req, res) => {
             {
                 user: existingUser._id
             },
-            process.env.JWT_SECRET);
+            process.env.JWT_SECRET,
+            { expiresIn: '2d' },);
 
         //send the token as cookie
-        res.cookie("token", token, { httpOnly: true, }).send()
-
+        // res.cookie("token", token, { httpOnly: true, }).send()
+        res.json({token,
+            user : {
+             id : existingUser._id,
+             email : existingUser._email
+        }
+    });
 
     }
     catch (err) {
@@ -148,12 +116,11 @@ const loginUser = async (req, res) => {
     }
 }
 
-//logout user
-const logout = (req, res) => {
-    res.cookie("token", "", { httpOnly: true, expires: new Date(0), }).send();
-}
+//logout user for cookies case
+// const logout = (req, res) => {
+//     res.cookie("token", "", { httpOnly: true, expires: new Date(0), }).send();
+// }
 module.exports = {
     addUser,
     loginUser,
-    logout
 }
