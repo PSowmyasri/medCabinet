@@ -1,8 +1,9 @@
 import React, {useState} from 'react';
 import { toast } from 'react-toastify';
-import { login } from '../actions/auth';
+import { login, dashboard } from '../actions/auth';
 import LoginComponent from '../components/LoginComponent'
 import axios from 'axios';
+import {Link, useHistory} from 'react-router-dom'
 import { useDispatch } from "react-redux";
 
 
@@ -11,7 +12,7 @@ import { useDispatch } from "react-redux";
 const Login = () => {
     const [email,setEmail] = useState('');
     const [password, setPassword] = useState('');
-
+    let history = useHistory();
     const dispatch = useDispatch();
 
 
@@ -26,13 +27,17 @@ const Login = () => {
                  email : email,
                  password : password}
                  );
-            // console.log(res.data);
+            console.log(res.data);
             window.localStorage.setItem('user', JSON.stringify(res.data));
             dispatch({
                     type:'LOGIN_USER',
                     payload:res.data
                 });
             toast.success("Logged in!");
+            const token = JSON.parse(window.localStorage.getItem('user')).token
+            const test = await dashboard(token)
+            console.log(test);
+            history.push('/dashboard')
 
         }
         catch(err){

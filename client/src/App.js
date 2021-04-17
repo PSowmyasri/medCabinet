@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 import Register from './screens/Register'
 import {ToastContainer} from 'react-toastify'
 import Login from './screens/Login';
+import User from './screens/User'
 import 'react-toastify/dist/ReactToastify.css'
 
 function App() {
@@ -19,6 +20,8 @@ function App() {
 
           <Route exact path="/login" component={Login} />
 
+          <Route exact path="/dashboard" component={User} />
+          
         </Switch>
       </main>
     </Router>

@@ -105,7 +105,8 @@ const loginUser = async (req, res) => {
         res.json({token,
             user : {
              id : existingUser._id,
-             email : existingUser._email
+             name : existingUser.name,
+             email : existingUser.email
         }
     });
 
@@ -120,7 +121,37 @@ const loginUser = async (req, res) => {
 // const logout = (req, res) => {
 //     res.cookie("token", "", { httpOnly: true, expires: new Date(0), }).send();
 // }
+
+//accessing user's dashboard after login - private route, hence token verification required
+const dashboard = (req,res) => {
+    const header = req.headers['authorization'];
+    console.log(header)
+    if(typeof header !== 'undefined') {
+        const bearer = header.split(' ');
+        const token = bearer[1];
+
+        jwt.verify(token, process.env.JWT_SECRET , function(err, decoded) {
+            if(err){
+                console.log(err)
+                res.sendStatus(403)
+            }
+            else{
+                console.log(decoded)
+                res.json({
+                    message: 'Token verified!'
+                });
+            }
+        }) //end of jwt.verify
+    }
+    else {
+        //If header is undefined return Forbidden (403)
+        res.sendStatus(403)
+    }//missing token in the header
+    
+}
+
 module.exports = {
     addUser,
     loginUser,
+    dashboard
 }
