@@ -19,4 +19,16 @@ const addFile = async (req, res) => {
     }
 }
 
-module.exports = { addFile };
+// used to get all the folders/files for a specific user
+const getFiles = async(req, res) => {
+    try {
+        const folders = await medFiles.find({addedBy: req.params.addedby});
+        res.json(folders);
+    }
+    catch (err) {
+        console.log(err);
+        res.status(500).send();
+    }
+}
+
+module.exports = { addFile , getFiles};
