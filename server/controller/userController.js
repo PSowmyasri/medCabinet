@@ -58,7 +58,8 @@ const addUser = async (req, res) => {
        res.json({token,
             user : {
              id : savedUser._id,
-             email : savedUser._email
+             name : savedUser.name,
+             email : savedUser.email
         }
     });
 

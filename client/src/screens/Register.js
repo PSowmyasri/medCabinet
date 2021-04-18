@@ -1,8 +1,9 @@
 import React, {useState} from 'react';
 import { toast } from 'react-toastify';
 import { useDispatch } from "react-redux";
-import { register } from '../actions/auth';
+import { register, dashboard } from '../actions/auth';
 import RegisterComponent from '../components/RegisterComponent'
+import {Link, useHistory} from 'react-router-dom'
 import axios from 'axios';
 
 const Register = () => {
@@ -11,6 +12,7 @@ const Register = () => {
     const [password, setPassword] = useState('');
     const [passwordVerfiy,setPasswordVerify] = useState('');
     const dispatch = useDispatch();
+    let history = useHistory();
 
     const handleRegister = async(e) => {
         e.preventDefault();
@@ -32,6 +34,10 @@ const Register = () => {
                     payload:res.data
                 });
             toast.success("Registered!");
+            const token = JSON.parse(window.localStorage.getItem('user')).token
+            const test = await dashboard(token)
+            console.log(test);
+            history.push('/dashboard')
 
         }
         catch(err){
