@@ -6,11 +6,13 @@ import Register from './screens/Register'
 import {ToastContainer} from 'react-toastify'
 import Login from './screens/Login';
 import User from './screens/User'
+import NavBar from './screens/NavBar'
 import 'react-toastify/dist/ReactToastify.css'
 
 function App() {
   return (
     <Router>
+      <NavBar />
       <main>
       <ToastContainer position="top-center"/>
         <Switch>
