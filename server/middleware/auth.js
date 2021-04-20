@@ -16,7 +16,7 @@ const auth = async (req, res, next) => {
 // }
 
 const header = req.headers['authorization'];
-console.log(header)
+console.log(header);
 if(typeof header !== 'undefined') {
     const bearer = header.split(' ');
     const token = bearer[1];

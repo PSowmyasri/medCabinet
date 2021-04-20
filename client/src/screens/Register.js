@@ -31,7 +31,7 @@ const Register = () => {
             window.localStorage.setItem('user', JSON.stringify(res.data));
             dispatch({
                     type:'LOGIN_USER',
-                    payload:res.data
+                    payload:res.data.user
                 });
             toast.success("Registered!");
             const token = JSON.parse(window.localStorage.getItem('user')).token

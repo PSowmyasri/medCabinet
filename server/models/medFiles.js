@@ -29,8 +29,11 @@ const medFilesSchema = new mongoose.Schema({
             content :{
                  data : Buffer,
                  ContentType : String
-            }
-
+            },
+            addedAt : {
+                type : Date,
+                default : Date.now()
+            },
         }
     ]
 

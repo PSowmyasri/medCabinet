@@ -27,11 +27,11 @@ const Login = () => {
                  email : email,
                  password : password}
                  );
-            console.log(res.data);
+            console.log(res.data.user);
             window.localStorage.setItem('user', JSON.stringify(res.data));
             dispatch({
                     type:'LOGIN_USER',
-                    payload:res.data
+                    payload:res.data.user
                 });
             toast.success("Logged in!");
             const token = JSON.parse(window.localStorage.getItem('user')).token

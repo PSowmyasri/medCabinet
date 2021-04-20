@@ -1,7 +1,18 @@
+const fs = require('fs');
 const medFiles = require('../models/medFiles')
 const addFile = async (req, res) => {
     try {
+        console.log(req.body);
         const { addedBy, folderName, description, files } = req.body;
+        console.log("addedBy" + addedBy);
+        console.log("folderName" + folderName);
+        console.log("descroiption" + description);
+        console.log(files);
+        // console.log(content);
+        // let image ;
+        // if(content){
+        //     image = fs.readFileSync(content);
+        // }
         const test = new medFiles({
             addedBy,
             folderName,
@@ -11,7 +22,7 @@ const addFile = async (req, res) => {
         console.log(test);
         const savedFile = await test.save();
         console.log(savedFile);
-        res.status(201).json({message: "new file added"});
+        res.status(201).json({ message: "new file added" });
     }
     catch (err) {
         console.log(err);
@@ -20,9 +31,9 @@ const addFile = async (req, res) => {
 }
 
 // used to get all the folders/files for a specific user
-const getFiles = async(req, res) => {
+const getFiles = async (req, res) => {
     try {
-        const folders = await medFiles.find({addedBy: req.params.addedby});
+        const folders = await medFiles.find({ addedBy: req.params.addedby });
         res.json(folders);
     }
     catch (err) {
@@ -31,4 +42,4 @@ const getFiles = async(req, res) => {
     }
 }
 
-module.exports = { addFile , getFiles};
+module.exports = { addFile, getFiles };

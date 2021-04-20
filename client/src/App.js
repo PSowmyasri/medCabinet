@@ -8,6 +8,8 @@ import Login from './screens/Login';
 import User from './screens/User'
 import NavBar from './screens/NavBar'
 import 'react-toastify/dist/ReactToastify.css'
+import NewFile from './screens/NewFile';
+import Test from './screens/Test'
 
 function App() {
   return (
@@ -23,6 +25,10 @@ function App() {
           <Route exact path="/login" component={Login} />
 
           <Route exact path="/dashboard" component={User} />
+
+          <Route exact path="/newFile" component = {NewFile} />
+
+          <Route exact path="/Test" component = {Test} />
 
         </Switch>
       </main>

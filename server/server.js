@@ -1,9 +1,9 @@
 const express = require('express')
 const cors = require('cors')
 const mongoose = require('mongoose')
+const multer = require('multer');
 const userRoutes = require('./routes/userRoutes')
 const fileRoutes = require('./routes/fileRoutes')
-const cookieParser = require("cookie-parser");
 require("dotenv").config();
 
 //set up express
@@ -14,9 +14,14 @@ console.log("starting server");
 app.listen(PORT, () => { console.log(`server started on port : ${PORT}`) });
 
 app.use(cors());
-app.use(express.json());
-app.use(cookieParser());
 
+// for parsing application/json
+app.use(express.json());
+
+//for parsing multipart/form-data
+const upload = multer();
+app.use(upload.array()); 
+app.use(express.static('public'));
 
 // set up mangoose
 
