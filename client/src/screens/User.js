@@ -3,7 +3,7 @@ import { SnippetsOutlined, UserOutlined, NotificationOutlined } from '@ant-desig
 import { useHistory } from 'react-router-dom';
 import { useState } from 'react';
 import { toast } from 'react-toastify';
-import { addFile } from '../actions/file';
+import {  addFolder } from '../actions/file';
 import { useSelector } from 'react-redux';
 import '../User.css';
 import '../App.css';
@@ -24,12 +24,12 @@ const Test = () => {
     setIsModalVisible(true);
   };
 
-  const handleOk = async () => {
+  const handleOk = async() => {
     if (folderName) {
       setIsModalVisible(false);
       const token = JSON.parse(window.localStorage.getItem('user')).token;
       // const currentUser = JSON.parse(window.localStorage.getItem('user')).user;
-      const res = await addFile(token, {
+      const res = await addFolder(token, {
         addedBy: currentUser.email,
         folderName: folderName,
         // files: [{
@@ -41,7 +41,8 @@ const Test = () => {
       });
       console.log(res);
       toast.success(`${folderName} created`);
-      history.push('/newFile');
+      history.push({ pathname :'/newFile',
+      state : {folderId : res.data}});
     }
     else {
       toast.error("Please enter folder name");
@@ -111,7 +112,7 @@ const Test = () => {
               minHeight: 280,
             }}
           >
-            Content
+            {/* Content */}
           </Content>
         </Layout>
       </Layout>

@@ -25,7 +25,7 @@ function App() {
 
           <Route exact path="/dashboard" component={User} />
 
-          <Route exact path="/newFile" component = {NewFile} />
+          <Route exact path="/newFile/" component = {NewFile} />
 
         </Switch>
       </main>

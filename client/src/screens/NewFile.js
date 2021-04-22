@@ -1,9 +1,13 @@
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
+import { useHistory } from 'react-router';
 import { toast } from 'react-toastify';
-import { addFile } from '../actions/file';
+import { addFile , addFolder} from '../actions/file';
 import '../App.css';
 const NewFile = () => {
+    let history = useHistory();
+    const folderId = history.location.state ? history.location.state.folderId : '';
+    console.log(folderId)
     const [name, setName] = useState('');
     const [type, setType] = useState('Prescription');
     const [img, setImg] = useState(null);
@@ -23,16 +27,29 @@ const NewFile = () => {
         try {
             event.preventDefault();
             const token = JSON.parse(window.localStorage.getItem('user')).token
-            // const formData = new FormData();
-            // formData.append('addedBy',currentUser.email);
-            // formData.append('fileName', name);
-            // formData.append('fileType',type);
-            // formData.append('content', img);
+            const formData = new FormData();
+            formData.append('addedBy',currentUser.email);
+            formData.append('fileName', name);
+            formData.append('fileType',type);
+            formData.append('content', img);
             // console.log(formData.values());
             // const res = await addFile(token, formData);
+            if(folderId){
             const res = await addFile(token, {
+                files: [{
+                    name: name,
+                    fileType: type,
+                    content: img.toString("base64")
+                }]
+
+            }, folderId);
+            console.log(res);
+            toast.success("file uploaded");
+        }
+        else{
+
+            const res = await addFolder(token, {
                 addedBy: currentUser.email,
-                folderName: "test",
                 files: [{
                     name: name,
                     fileType: type,
@@ -40,8 +57,10 @@ const NewFile = () => {
                 }]
 
             });
+            // const res = await addFolder(token, formData);
             console.log(res);
             toast.success("file uploaded");
+        }
 
 
         }

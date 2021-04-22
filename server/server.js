@@ -1,7 +1,8 @@
 const express = require('express')
 const cors = require('cors')
 const mongoose = require('mongoose')
-const multer = require('multer');
+// const multer = require('multer');
+const formidable = require('express-formidable');
 const userRoutes = require('./routes/userRoutes')
 const fileRoutes = require('./routes/fileRoutes')
 require("dotenv").config();
@@ -18,10 +19,12 @@ app.use(cors());
 // for parsing application/json
 app.use(express.json());
 
-//for parsing multipart/form-data
-const upload = multer();
-app.use(upload.array()); 
-app.use(express.static('public'));
+// //for parsing multipart/form-data
+// const upload = multer();
+// app.use(upload.array()); 
+// app.use(express.static('public'));
+// app.use(formidable());
+
 
 // set up mangoose
 

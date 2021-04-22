@@ -1,7 +1,18 @@
 import axios from 'axios'
-export const addFile = async(token, data) =>{
+export const addFile = async(token, data, params) =>{
     // console.log(data.getAll('addedBy'))
-    const res = await axios.post('http://localhost:5000/api/files/newFile', data,
+    const res = await axios.post(`http://localhost:5000/api/files/newFile/${params}`, data,
+    {
+        headers:{
+            Authorization: `Bearer ${token}`        
+        }
+    });
+    return res ;
+}
+
+export const addFolder = async(token, data) =>{
+    // console.log(data)
+    const res = await axios.post('http://localhost:5000/api/files/newFolder', data,
     {
         headers:{
             Authorization: `Bearer ${token}`        
