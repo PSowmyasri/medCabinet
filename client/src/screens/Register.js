@@ -1,38 +1,39 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import { toast } from 'react-toastify';
 import { useDispatch } from "react-redux";
 import { register, dashboard } from '../actions/auth';
 import RegisterComponent from '../components/RegisterComponent'
-import {Link, useHistory} from 'react-router-dom'
-import axios from 'axios';
+import { useHistory } from 'react-router-dom'
 
 const Register = () => {
-    const [name,setName] = useState('');
-    const [email,setEmail] = useState('');
+    const [name, setName] = useState('');
+    const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [passwordVerfiy,setPasswordVerify] = useState('');
+    const [passwordVerfiy, setPasswordVerify] = useState('');
     const dispatch = useDispatch();
     let history = useHistory();
 
-    const handleRegister = async(e) => {
+    const handleRegister = async (e) => {
         e.preventDefault();
-        try{
+        try {
             console.log(name)
             console.log(email)
             console.log(password)
             console.log(passwordVerfiy)
             const res = await register(
-                {name : name, 
-                 email : email,
-                 password : password,
-                 passwordVerify: passwordVerfiy}
-                 );
+                {
+                    name: name,
+                    email: email,
+                    password: password,
+                    passwordVerify: passwordVerfiy
+                }
+            );
             console.log(res);
             window.localStorage.setItem('user', JSON.stringify(res.data));
             dispatch({
-                    type:'LOGIN_USER',
-                    payload:res.data.user
-                });
+                type: 'LOGIN_USER',
+                payload: res.data.user
+            });
             toast.success("Registered!");
             const token = JSON.parse(window.localStorage.getItem('user')).token
             const test = await dashboard(token)
@@ -40,7 +41,7 @@ const Register = () => {
             history.push('/dashboard')
 
         }
-        catch(err){
+        catch (err) {
             console.log(err);
             toast.error(err.response.data.message)
         }
@@ -49,14 +50,14 @@ const Register = () => {
     return (
         <div className='col-md-12'>
             <RegisterComponent name={name} email={email} password={password} passwordVerfiy={passwordVerfiy}
-            setName = {setName}
-            setEmail = {setEmail}
-            setPassword = {setPassword}
-            setPasswordVerify = {setPasswordVerify} 
-            handleRegister = {handleRegister}/>
+                setName={setName}
+                setEmail={setEmail}
+                setPassword={setPassword}
+                setPasswordVerify={setPasswordVerify}
+                handleRegister={handleRegister} />
         </div>
     );
-} ;
+};
 
 export default Register;
 

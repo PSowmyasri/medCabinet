@@ -5,14 +5,13 @@ import { useState } from 'react';
 import { toast } from 'react-toastify';
 import { addFile } from '../actions/file';
 import { useSelector } from 'react-redux';
-import RecentActivty from './RecentActivity';
 import '../User.css';
 import '../App.css';
 const { SubMenu } = Menu;
 const { Content, Sider } = Layout;
 
 const Test = () => {
-  // const currentUser = useSelector(state => state.authReducer).user;
+  const currentUser = useSelector(state => state.authReducer).user;
 
   const [folderName, setFolderName] = useState('untitled Folder');
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -29,7 +28,7 @@ const Test = () => {
     if (folderName) {
       setIsModalVisible(false);
       const token = JSON.parse(window.localStorage.getItem('user')).token;
-      const currentUser = JSON.parse(window.localStorage.getItem('user')).user;
+      // const currentUser = JSON.parse(window.localStorage.getItem('user')).user;
       const res = await addFile(token, {
         addedBy: currentUser.email,
         folderName: folderName,
@@ -112,7 +111,7 @@ const Test = () => {
               minHeight: 280,
             }}
           >
-            <RecentActivty />
+            Content
           </Content>
         </Layout>
       </Layout>
