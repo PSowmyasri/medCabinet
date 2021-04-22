@@ -4,15 +4,6 @@ const addFile = async (req, res) => {
     try {
         console.log(req.body);
         const { addedBy, folderName, description, files } = req.body;
-        console.log("addedBy" + addedBy);
-        console.log("folderName" + folderName);
-        console.log("descroiption" + description);
-        console.log(files);
-        // console.log(content);
-        // let image ;
-        // if(content){
-        //     image = fs.readFileSync(content);
-        // }
         const test = new medFiles({
             addedBy,
             folderName,
@@ -34,6 +25,7 @@ const addFile = async (req, res) => {
 const getFiles = async (req, res) => {
     try {
         const folders = await medFiles.find({ addedBy: req.params.addedby });
+        console.log(folders);
         res.json(folders);
     }
     catch (err) {

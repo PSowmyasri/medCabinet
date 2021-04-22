@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useSelector } from 'react-redux';
+// import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import { addFile } from '../actions/file';
 import '../App.css';
@@ -7,8 +7,9 @@ const NewFile = () => {
     const [name, setName] = useState('');
     const [type, setType] = useState('Prescription');
     const [img, setImg] = useState(null);
-    const currentUser = useSelector(state => state.authReducer).user;
+    // const currentUser = useSelector(state => state.authReducer).user;
     // console.log("current user " + currentUser.email);
+    const currentUser = JSON.parse(window.localStorage.getItem('user')).user;
     const handlefile = (event) => {
         setImg(event.target.value);
     }
