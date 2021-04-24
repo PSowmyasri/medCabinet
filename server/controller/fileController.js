@@ -2,33 +2,17 @@ const fs = require('fs');
 const medFiles = require('../models/medFiles')
 const addFolder = async (req, res) => {
     try {
-        console.log(req.files);
-        console.log(req.fields);
         console.log(req.body);
-        const { addedBy, folderName, description , files} = req.body;
-        const test = new medFiles({
+        const { addedBy, folderName, description } = req.body;
+        const folder = new medFiles({
             addedBy,
             folderName,
             description,
-            files
         });
-        // const { addedBy, folderName, description , fileName, fileType,content} = req.body;
-        // const test = new medFiles({
-        //     addedBy,
-        //     folderName,
-        //     description,
-        //     files :[{
-        //         name : fileName,
-        //         fileType,
-        //         // content : fs.readFileSync(content)
-        //         content : content
-        //     }]
-        // });
-        console.log(test);
-        const savedFile = await test.save();
+        console.log(folder);
+        const savedFile = await folder.save();
         console.log(savedFile);
-        res.json(test._id);
-        // res.status(201).json({ message: "new file added" });
+        res.json(savedFile._id);
     }
     catch (err) {
         console.log(err);
@@ -49,21 +33,72 @@ const getFiles = async (req, res) => {
     }
 }
 
-const addFile = async (req, res) => {
-   try{
-       console.log(req.params);
-        const file = await medFiles.findOneAndUpdate({_id : req.params.id},
-            {$push : {files : req.body.files}},
-            {upsert : true },
-            );
-        console.log(file);
-        res.status(201).json({message : "File added successfully"});
-   }
-   catch(err){
-       console.log(err);
-       res.status(500).send();
-   }
+const addFileToFolder = async (req, res) => {
+    try {
+        console.log(req.fields);
+        console.log(req.files);
+        console.log(req.params.id);
+        if (req.files) {
+            const filePath = req.files.content.path;
+            const { fileName, fileType } = req.fields;
+            const updateData = {
+                name: fileName,
+                fileType,
+                file: {
+                    data: fs.readFileSync(filePath),
+                    Type: req.files.content.type
+                }
+            }
+            console.log(updateData);
+            const file = await medFiles.findOneAndUpdate({ _id: req.params.id },
+                { $push: { files: updateData } });
+            console.log(file);
+            res.status(201).json({ message: "File added successfully" });
+        }
+
+        else {
+            return res.status(400).json({ message: " Please add your file !" })
+        }
+
+    }
+    catch (err) {
+        console.log(err);
+        res.status(500).send();
+    }
 }
 
 
-module.exports = { addFile, getFiles, addFolder };
+const addFile = async (req, res) => {
+    try {
+        if (req.files) {
+            console.log(req.files);
+            console.log(req.fields);
+            const filePath = req.files.content.path;
+            const { addedBy, fileName, fileType } = req.fields;
+            const addedFile = new medFiles({
+                addedBy,
+                files: [{
+                    name: fileName,
+                    fileType,
+                    file: {
+                        data: fs.readFileSync(filePath),
+                        Type: req.files.content.type
+                    }
+                }]
+            });
+            console.log(addedFile);
+            const savedFile = await addedFile.save();
+            console.log(savedFile);
+            res.status(201).json({ message: "new file added" });
+        }
+        else {
+            return res.status(400).json({ message: " Please add your file !" })
+        }
+    }
+    catch (err) {
+        console.log(err);
+        res.status(500).send();
+    }
+}
+
+module.exports = { addFile, addFileToFolder, getFiles, addFolder };

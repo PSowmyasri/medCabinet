@@ -1,57 +1,21 @@
-import { Layout, Menu, Modal, Button } from 'antd';
+// import UserComponent from '../components/UserComponent'
+// const User=() =>{
+//   return(
+//     <UserComponent/>
+//   )
+// }
+
+// export default User ;
+import { Layout, Menu, Button } from 'antd';
 import { SnippetsOutlined, UserOutlined, NotificationOutlined } from '@ant-design/icons';
 import { useHistory } from 'react-router-dom';
-import { useState } from 'react';
-import { toast } from 'react-toastify';
-import {  addFolder } from '../actions/file';
-import { useSelector } from 'react-redux';
+import NewFolder from '../components/NewFolder';
 import '../User.css';
 import '../App.css';
 const { SubMenu } = Menu;
 const { Content, Sider } = Layout;
 
-const Test = () => {
-  const currentUser = useSelector(state => state.authReducer).user;
-
-  const [folderName, setFolderName] = useState('untitled Folder');
-  const [isModalVisible, setIsModalVisible] = useState(false);
-
-  const onChangeFolderName = (event) => {
-    setFolderName(event.target.value);
-  }
-
-  const showModal = () => {
-    setIsModalVisible(true);
-  };
-
-  const handleOk = async() => {
-    if (folderName) {
-      setIsModalVisible(false);
-      const token = JSON.parse(window.localStorage.getItem('user')).token;
-      // const currentUser = JSON.parse(window.localStorage.getItem('user')).user;
-      const res = await addFolder(token, {
-        addedBy: currentUser.email,
-        folderName: folderName,
-        // files: [{
-        //     name: name,
-        //     fileType: type,
-        //     content: img.toString("base64")
-        // }]
-
-      });
-      console.log(res);
-      toast.success(`${folderName} created`);
-      history.push({ pathname :'/newFile',
-      state : {folderId : res.data}});
-    }
-    else {
-      toast.error("Please enter folder name");
-    }
-  };
-
-  const handleCancel = () => {
-    setIsModalVisible(false);
-  };
+const UserComponent = () => {
 
   let history = useHistory();
   const handleNewFile = (event) => {
@@ -70,21 +34,7 @@ const Test = () => {
           >
             <SubMenu key="sub1" icon={<SnippetsOutlined />} title="Add">
               <Menu.Item key="1">
-                <Button type="primary" onClick={showModal}>
-                  New Folder
-                </Button>
-                <Modal title="Basic Modal" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
-                  <div className='form-group' style={{ display: "flex", justifyContent: "left" }}>
-                    <label htmlFor="Folder Name">Folder name</label>
-                    <input
-                      type='text'
-                      className='form-control'
-                      name='FolderName'
-                      value={folderName}
-                      onChange={onChangeFolderName}
-                    />
-                  </div>
-                </Modal>
+               < NewFolder />
               </Menu.Item>
               <Menu.Item key="2">
                 <Button type="primary" onClick={handleNewFile}>
@@ -120,4 +70,4 @@ const Test = () => {
   );
 }
 
-export default Test;
+export default UserComponent;
