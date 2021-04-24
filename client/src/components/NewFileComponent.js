@@ -13,11 +13,11 @@ const NewFileComponent=(props) =>{
 return(
     <div className="col-md-12">
         <br/>
-    <h2 style={{ display: "flex", justifyContent: "center" }}>Add your File</h2>
+    <h2 style={{ display: "flex", justifyContent: "center" }}>Add your file</h2>
     <div className="card card-container">
         <form onSubmit={handleUpload}>
             <div className='form-group' style={{ display: "flex", justifyContent: "left" }}>
-                <label htmlFor="name"> File Name</label>
+                <label htmlFor="name">File Name</label>
                 <input
                     type='text'
                     className='form-control'
@@ -26,7 +26,7 @@ return(
                     onChange={onChangeName} />
             </div>
 
-            <div className='form-group' style={{ display: "flex", justifyContent: "left" }}>
+            <div className='form-group' style={{ display: "flex", justifyContent: "center" }}>
                 <label htmlFor="Type">Choose File Type</label>
                 <select name='fileType' defaultValue={type} className='form-control' onChange={onChangeFileType}>
                     <option value='Prescription'>Prescription</option>
@@ -34,9 +34,10 @@ return(
                 </select>
             </div>
             <div className='form-group' style={{ display: "flex", justifyContent: "center" }}>
-                <input type="file" name="file"  onChange={onChangefile} accept="image/*, .doc, .pdf" />
+                
             </div>
             <div className="form-group" style={{ display: "flex", justifyContent: "center" }}>
+                <input type="file" name="file"  onChange={onChangefile} accept="image/*, .doc, .pdf" />
                 <button className="btn-header">Upload</button>
             </div>
         </form>

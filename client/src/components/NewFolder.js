@@ -6,7 +6,7 @@ import {  addFolder } from '../actions/file';
 import { useSelector } from 'react-redux';
 const NewFolder = () =>{
     const currentUser = useSelector(state => state.authReducer).user;
-    const [folderName, setFolderName] = useState('untitled Folder');
+    const [folderName, setFolderName] = useState('Untitled Folder');
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [description, setDescription] = useState('');
     let history = useHistory();
@@ -29,6 +29,7 @@ const NewFolder = () =>{
         const res = await addFolder(token, {
           addedBy: currentUser.email,
           folderName: folderName,
+          description: description
           // files: [{
           //     name: name,
           //     fileType: type,
@@ -55,9 +56,9 @@ const NewFolder = () =>{
          <Button type="primary" onClick={showModal}>
                   New Folder
                 </Button>
-                <Modal title="Basic Modal" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
+                <Modal title="Create Folder" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
                   <div className='form-group' style={{ display: "flex", justifyContent: "left" }}>
-                    <label htmlFor="Folder Name">Folder name</label>
+                    <label htmlFor="Folder Name">Folder Name</label>
                     <input
                       type='text'
                       className='form-control'
@@ -67,9 +68,9 @@ const NewFolder = () =>{
                     />
                   </div>
                   <div className='form-group' style={{ display: "flex", justifyContent: "left" }}>
-                    <label htmlFor="Description">Description</label>
+                    <label htmlFor="Description">Folder Description</label>
                     <input
-                      type='text'
+                      type='textarea'
                       className='form-control'
                       name='Description'
                       value={description}
