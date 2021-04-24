@@ -39,23 +39,29 @@ const addFileToFolder = async (req, res) => {
         console.log(req.files);
         console.log(req.params.id);
         if (req.files) {
-            const filePath = req.files.content.path;
-            const { fileName, fileType } = req.fields;
-            const updateData = {
-                name: fileName,
-                fileType,
-                file: {
-                    data: fs.readFileSync(filePath),
-                    Type: req.files.content.type
+            const fullType = req.files.content.type;
+            const Type = fullType.split('/')[1];
+            if (Type == 'jpg' || Type == 'jpeg' || Type == 'png' || Type == 'pdf' || Type == 'doc') {
+                const filePath = req.files.content.path;
+                const { fileName, fileType } = req.fields;
+                const updateData = {
+                    name: fileName,
+                    fileType,
+                    file: {
+                        data: fs.readFileSync(filePath),
+                        Type
+                    }
                 }
+                console.log(updateData);
+                const file = await medFiles.findOneAndUpdate({ _id: req.params.id },
+                    { $push: { files: updateData } });
+                console.log(file);
+                res.status(201).json({ message: "File added successfully" });
             }
-            console.log(updateData);
-            const file = await medFiles.findOneAndUpdate({ _id: req.params.id },
-                { $push: { files: updateData } });
-            console.log(file);
-            res.status(201).json({ message: "File added successfully" });
+            else {
+                return res.status(400).json({ message: `Files of ${Type} are not supported.` })
+            }
         }
-
         else {
             return res.status(400).json({ message: " Please add your file !" })
         }
@@ -71,34 +77,42 @@ const addFileToFolder = async (req, res) => {
 const addFile = async (req, res) => {
     try {
         if (req.files) {
-            console.log(req.files);
-            console.log(req.fields);
-            const filePath = req.files.content.path;
-            const { addedBy, fileName, fileType } = req.fields;
-            const addedFile = new medFiles({
-                addedBy,
-                files: [{
-                    name: fileName,
-                    fileType,
-                    file: {
-                        data: fs.readFileSync(filePath),
-                        Type: req.files.content.type
-                    }
-                }]
-            });
-            console.log(addedFile);
-            const savedFile = await addedFile.save();
-            console.log(savedFile);
-            res.status(201).json({ message: "new file added" });
+            const fullType = req.files.content.type;
+            const Type = fullType.split('/')[1];
+
+            if (Type == 'jpg' || Type == 'jpeg' || Type == 'png' || Type == 'pdf' || Type == 'doc') {
+                console.log(req.files);
+                console.log(req.fields);
+                const filePath = req.files.content.path;
+                const { addedBy, fileName, fileType } = req.fields;
+                const addedFile = new medFiles({
+                    addedBy,
+                    files: [{
+                        name: fileName,
+                        fileType,
+                        file: {
+                            data: fs.readFileSync(filePath),
+                            Type
+                        }
+                    }]
+                });
+                console.log(addedFile);
+                const savedFile = await addedFile.save();
+                console.log(savedFile);
+                res.status(201).json({ message: "new file added" });
+            }
+            else {
+                return res.status(400).json({ message: `Files of ${Type} are not supported.` })
+            }
         }
         else {
-            return res.status(400).json({ message: " Please add your file !" })
-        }
+    return res.status(400).json({ message: " Please add your file !" })
+}
     }
     catch (err) {
-        console.log(err);
-        res.status(500).send();
-    }
+    console.log(err);
+    res.status(500).send();
+}
 }
 
 module.exports = { addFile, addFileToFolder, getFiles, addFolder };

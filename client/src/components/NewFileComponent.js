@@ -34,7 +34,7 @@ return(
                 </select>
             </div>
             <div className='form-group' style={{ display: "flex", justifyContent: "center" }}>
-                <input type="file" name="file"  onChange={onChangefile} />
+                <input type="file" name="file"  onChange={onChangefile} accept="image/*, .doc, .pdf" />
             </div>
             <div className="form-group" style={{ display: "flex", justifyContent: "center" }}>
                 <button className="btn-header">Upload</button>
