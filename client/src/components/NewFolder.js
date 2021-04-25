@@ -57,7 +57,7 @@ const NewFolder = () =>{
                   New Folder
                 </Button>
                 <Modal title="Create Folder" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
-                  <div className='form-group' style={{ display: "flex", justifyContent: "left" }}>
+                  <div className='form-group' style={{ display: "flex"}}>
                     <label htmlFor="Folder Name">Folder Name</label>
                     <input
                       type='text'
@@ -67,7 +67,7 @@ const NewFolder = () =>{
                       onChange={onChangeFolderName}
                     />
                   </div>
-                  <div className='form-group' style={{ display: "flex", justifyContent: "left" }}>
+                  <div className='form-group' style={{ display: "flex"}}>
                     <label htmlFor="Description">Folder Description</label>
                     <input
                       type='textarea'

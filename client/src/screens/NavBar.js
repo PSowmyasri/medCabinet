@@ -18,11 +18,11 @@ const NavBar = () => {
                 </Link>
                 {/* verify if this home page is needed since we already have dashboard and / */}
                 <div className="navbar-nav mr-auto">
-                    <li className="nav-item">
+                    {currentUser ? ( <li className="nav-item">
                         <Link to={"/dashboard"} className="nav-link">
                             Dashboard
                         </Link>
-                    </li>
+                    </li>) : <></>}
                     </div>
                     {currentUser ? (
                         <div className="navbar-nav ml-auto">

@@ -26,7 +26,7 @@ return(
                     onChange={onChangeName} />
             </div>
 
-            <div className='form-group' style={{ display: "flex", justifyContent: "center" }}>
+            <div className='form-group' style={{ display: "flex", justifyContent: "left" }}>
                 <label htmlFor="Type">Choose File Type</label>
                 <select name='fileType' defaultValue={type} className='form-control' onChange={onChangeFileType}>
                     <option value='Prescription'>Prescription</option>
@@ -34,10 +34,9 @@ return(
                 </select>
             </div>
             <div className='form-group' style={{ display: "flex", justifyContent: "center" }}>
-                
+                <input type="file" name="file"  onChange={onChangefile} accept="image/*, .doc, .pdf" />
             </div>
             <div className="form-group" style={{ display: "flex", justifyContent: "center" }}>
-                <input type="file" name="file"  onChange={onChangefile} accept="image/*, .doc, .pdf" />
                 <button className="btn-header">Upload</button>
             </div>
         </form>
